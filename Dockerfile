@@ -8,4 +8,4 @@ RUN apt-get update -y \
     && apt-get install -y gcc libpq-dev \
     && pip3 install -r requirements.txt --no-cache-dir
 
-CMD ["uvicorn", "main:api", "--host", "0.0.0.0", "--port", "8080"]
+CMD gunicorn main:api -c gunicorn_config.py

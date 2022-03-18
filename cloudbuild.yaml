@@ -22,7 +22,10 @@ steps:
       - "sh"
       - "-c"
       - |
-        export PROJECT_ID=$PROJECT_ID && pip install -r requirements.txt && PYTHONPATH=. alembic upgrade head
+        pip install -r requirements.txt && alembic upgrade head
+    env:
+        - "PROJECT_ID=$PROJECT_ID"
+        - "PYTHONPATH=."
 
   - id: "cloud_run_deploy"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
