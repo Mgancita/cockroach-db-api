@@ -17,11 +17,12 @@ steps:
     args: ["push", "us.gcr.io/$PROJECT_ID/api"]
 
   - id: "db_migrations"
-    name: "gcr.io/google-appengine/exec-wrapper"
-    args: ["-i", "us.gcr.io/$PROJECT_ID/api:latest",
-            "-e", "PYTHONPATH=.", -e, "PROJECT_ID=$PROJECT_ID",
-            "-s", "$PROJECT_ID:$PROJECT_ID",
-            "--", "alembic", "upgrade", "head"]
+    name: "python:3.8"
+    args:
+      - "sh"
+      - "-c"
+      - |
+        PYTHONPATH=. alembic upgrade head
 
   - id: "cloud_run_deploy"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
