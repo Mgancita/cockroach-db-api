@@ -59,7 +59,7 @@ class Config:
             return result
 
         secrets_client = secretmanager.SecretManagerServiceClient()
-        for secret_id in result.dict().keys():
+        for secret_id in ["SECRET_KEY", "DATABASE_URL", "TEST_DATABASE_NAME"]:
             version_path = secrets_client.secret_version_path(project_id, secret_id, "latest")
             secret_version = secrets_client.access_secret_version(version_path)
             secret_data = secret_version.payload.data.decode("UTF-8")
