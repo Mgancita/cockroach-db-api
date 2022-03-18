@@ -5,7 +5,7 @@ from typing import Optional
 import uuid
 
 from pydantic import BaseModel, EmailStr, Field, UUID4
-
+from v1.schemas import PropertyBaseModel
 
 class StudentBase(BaseModel):
     """Base schema for Students."""
@@ -20,7 +20,7 @@ class StudentBase(BaseModel):
 class StudentCreate(StudentBase):
     """Schema for creating a Student."""
 
-    id: UUID4 = Field(default_factory=uuid.uuid4)
+    pass
 
 
 class StudentUpdate(BaseModel):
