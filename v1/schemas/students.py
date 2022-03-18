@@ -7,6 +7,7 @@ import uuid
 from pydantic import BaseModel, EmailStr, Field, UUID4
 from v1.schemas import PropertyBaseModel
 
+
 class StudentBase(BaseModel):
     """Base schema for Students."""
 
