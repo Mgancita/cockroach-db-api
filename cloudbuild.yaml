@@ -1,0 +1,46 @@
+---
+steps:
+  - name: python:3.8
+    id: "create_requirements"
+    args:
+      - "sh"
+      - "-c"
+      - |
+        pip install poetry && poetry export -f requirements.txt --output requirements.txt --without-hashes
+
+  - id: "docker_build"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "us.gcr.io/$PROJECT_ID/api", "."]
+
+  - id: "docker_push"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "us.gcr.io/$PROJECT_ID/api"]
+
+  - id: "db_migrations"
+    name: "gcr.io/google-appengine/exec-wrapper"
+    args: ["-i", "us.gcr.io/$PROJECT_ID/api:latest",
+            "-e", "PYTHONPATH=.", -e, "PROJECT_ID=$PROJECT_ID",
+            "-s", "$PROJECT_ID:$PROJECT_ID",
+            "--", "alembic", "upgrade", "head"]
+
+  - id: "cloud_run_deploy"
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    args:
+      [
+        "gcloud",
+        "run",
+        "deploy",
+        "cockroach-db-api",
+        "--image=us.gcr.io/$PROJECT_ID/api:latest",
+        "--cpu=2",
+        "--port=8080",
+        "--memory=2048Mi",
+        "--timeout=600",
+        "--concurrency=20",
+        "--platform=managed",
+        "--max-instances=1000",
+        "--region=us-central1",
+        "--allow-unauthenticated",
+        "--revision-suffix=$SHORT_SHA",
+        "--set-env-vars=PROJECT_ID=$PROJECT_ID,SHORT_SHA=$SHORT_SHA",
+      ]

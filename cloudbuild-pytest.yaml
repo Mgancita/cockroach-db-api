@@ -1,0 +1,11 @@
+---
+steps:
+  - name: python:3.8
+    id: "python_install_config_test"
+    args:
+      - "sh"
+      - "-c"
+      - |
+        pip install poetry && poetry install && poetry run pytest
+    env:
+      - "PROJECT_ID=$PROJECT_ID"
