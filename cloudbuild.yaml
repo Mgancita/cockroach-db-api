@@ -22,7 +22,7 @@ steps:
       - "sh"
       - "-c"
       - |
-        pip install poetry && poetry install && PYTHONPATH=. alembic upgrade head
+        pip install poetry && poetry install && poetry shell && PYTHONPATH=. alembic upgrade head
 
   - id: "cloud_run_deploy"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
