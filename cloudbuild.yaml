@@ -22,7 +22,7 @@ steps:
       - "sh"
       - "-c"
       - |
-        PYTHONPATH=. alembic upgrade head
+        pip install alembic && PYTHONPATH=. alembic upgrade head
 
   - id: "cloud_run_deploy"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
