@@ -14,11 +14,7 @@ version = os.getenv("SHORT_SHA", "local")
 api = FastAPI(title=f"Cockroach DB API: {title_detail}", version=version)
 
 # CORS
-api.add_middleware(
-    CORSMiddleware,
-    allow_methods=["*"],
-    allow_origins=["*"]
-)
+api.add_middleware(CORSMiddleware, allow_methods=["*"], allow_origins=["*"])
 
 # /
 api.include_router(health.router)
