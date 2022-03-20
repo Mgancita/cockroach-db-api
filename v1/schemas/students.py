@@ -2,10 +2,8 @@
 
 from datetime import datetime
 from typing import Optional
-import uuid
 
-from pydantic import BaseModel, EmailStr, Field, UUID4
-from v1.schemas import PropertyBaseModel
+from pydantic import BaseModel, EmailStr, UUID4
 
 
 class StudentBase(BaseModel):
